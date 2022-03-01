@@ -8,7 +8,6 @@ import boto3
 import pandas as pd
 from botocore.config import Config
 from botocore.exceptions import ClientError
-from mypy_boto3_athena.client import AthenaClient
 
 from .s3 import S3File
 from .exceptions import AthenaQueryParameters, AthenaQueryFailed, CredentialsExpired
@@ -104,7 +103,7 @@ class AthenaQuery:
 
         self.athena = self._create_athena_client()
 
-    def _create_athena_client(self) -> AthenaClient:
+    def _create_athena_client(self) -> boto3.client("athena"):
         config = Config(
             signature_version="s3v4",
             read_timeout=self.read_timeout_sec,
