@@ -62,7 +62,7 @@ class AthenaQueryDataSet(AbstractDataSet, AthenaQuery):
         load_args : dict
             Any arguments that can be passed to the corresponding read method if used
         query_params: dict
-            dict of query params, of name: type pair
+            dict of query params with expected fields ('name', 'type'/'value').
         """
         self.filepath = filepath
         self.sql_filepath = sql_filepath
