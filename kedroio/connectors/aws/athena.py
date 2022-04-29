@@ -274,7 +274,7 @@ class AthenaQuery:
         query_params = {}
         for param in self._query_params.keys():
             param_name = self._query_params[param]["name"]
-            param_type = self._query_params[param]["type"]
+            param_type = self._query_params[param].get("type")
             param_value = self._query_params[param]["value"]
 
             if param_value:
