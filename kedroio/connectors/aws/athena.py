@@ -42,7 +42,7 @@ class AthenaQuery:
     max_attempts : int, default = 3
         number of attempts for query
     query_params: dict
-        dict of query params, of name: type pair
+        dict of query params with expected fields ('name', 'type'/'value').
     """
 
     def __init__(
@@ -274,9 +274,14 @@ class AthenaQuery:
         query_params = {}
         for param in self._query_params.keys():
             param_name = self._query_params[param]["name"]
-            param_type = self._query_params[param]["type"]
+            param_type = self._query_params[param].get("type")
+            param_value = self._query_params[param]["value"]
 
-            if param_type == "yml_variable":
+            if param_value:
+                # value directly provided
+                query_params[param] = str(param_value)
+
+            elif param_type == "yml_variable":
                 # load parameter value from a yml file
                 try:
                     param_value = load_from_yml(
@@ -302,7 +307,7 @@ class AthenaQuery:
             else:
                 raise AthenaQueryParameters(
                     f"Parameter type '{param_type}' not valid. Use one of "
-                    f"[yml_variable/env_variable]"
+                    f"[yml_variable/env_variable] or provide a value directly"
                 )
 
         return query_params
